@@ -1,8 +1,10 @@
+import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:coolnote_app/Models/NoteModel.dart';
 import 'package:coolnote_app/Models/dbConnection.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MultilineTextField.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MyFloatingActionButton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../ProjectConstants.dart';
 
@@ -105,12 +107,13 @@ class AddNoteScreen extends StatelessWidget {
               top: height * .88,
               child: GestureDetector(
                 onTap: () async {
+                  //AddNote
                   Database database = await dbConnection();
-                  deleteNote(1, database);
                   Note note = Note(headline: headlineController.text,date: 'May 21,2020',note: noteController.text);
-                  insertNote(note, database);
-                  List<Note> myNotes = await notes(database);
-                  print(myNotes);
+                  Provider.of<NotesViewController>(context,listen: false).insertNote(note, database);
+                  //NotifyLister
+                  Provider.of<NotesViewController>(context, listen: false).notesRow(width: width,height: height);
+                  //GoBack
                   Navigator.pop(context);
                 },
                 child: MyFloatingActionButton(

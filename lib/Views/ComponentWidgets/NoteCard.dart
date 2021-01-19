@@ -10,6 +10,9 @@ class NoteCard extends StatelessWidget {
     @required this.color,
     @required this.date,
     @required this.headline,
+    this.id,
+    this.note,
+
   }) : super(key: key);
 
   final double width;
@@ -17,6 +20,9 @@ class NoteCard extends StatelessWidget {
   final Color color;
   final String date;
   final String headline;
+  final int id;
+  final String note;
+
 
   @override
   Widget build(BuildContext context) {

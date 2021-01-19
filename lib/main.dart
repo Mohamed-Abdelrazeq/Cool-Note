@@ -1,4 +1,5 @@
 //Packages
+import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<PageProvider>(create: (_) => PageProvider()),
+        ChangeNotifierProvider<NotesViewController>(create: (_) => NotesViewController()),
       ],
       child: MyApp(),
     ),
