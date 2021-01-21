@@ -18,8 +18,6 @@ class NotesViewController with ChangeNotifier{
       note.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    notifyListeners();
   }
 
   Future<void> updateNote(Note note,Database database) async {
@@ -71,11 +69,12 @@ class NotesViewController with ChangeNotifier{
         headline: maps[i]['headline'],
         date: maps[i]['date'],
         note: maps[i]['note'],
+        colorId: maps[i]['colorId'],
       );
     });
   }
 
-  Future<List<Widget>> notesRow({double width, double height}) async {
+  Future notesRow({double width, double height}) async {
 
     leftList.clear();
     rightList.clear();
@@ -83,14 +82,12 @@ class NotesViewController with ChangeNotifier{
     Database database = await dbConnection();
     List<Note> myNotes = await notes(database);
 
-    print(myNotes.length);
-
     for (var i = 0; i < myNotes.length; i++) {
-      if (myNotes[i].id % 2 == 0){
+      if (myNotes[i].id % 2 != 0){
         leftList.add(NoteCard(
           width: width,
           height: height,
-          color: Colors.greenAccent,
+          color: colorCode(myNotes[i].colorId),
           date: myNotes[i].date,
           headline: myNotes[i].headline,
           id: myNotes[i].id,
@@ -101,7 +98,7 @@ class NotesViewController with ChangeNotifier{
         rightList.add(NoteCard(
           width: width,
           height: height,
-          color: Colors.greenAccent,
+          color: colorCode(myNotes[i].colorId),
           date: myNotes[i].date,
           headline: myNotes[i].headline,
           id: myNotes[i].id,
@@ -109,8 +106,6 @@ class NotesViewController with ChangeNotifier{
         ));
       }
     }
-
-    notifyListeners();
 
     myNoteCards = [
       Column(
@@ -124,18 +119,28 @@ class NotesViewController with ChangeNotifier{
       ),
     ];
 
-    return [
-      Column(
-        children: leftList,
-      ),
-      SizedBox(
-        width: width * .04,
-      ),
-      Column(
-        children: rightList,
-      ),
-    ];
+    notifyListeners();
 
   }
 
+  Color colorCode(colorId){
+    Color color ;
+    if(colorId == 0){
+      color =  Colors.greenAccent;
+    }else if (colorId == 1){
+      color =  Colors.redAccent;
+    }else if (colorId == 2){
+      color =  Colors.blueAccent;
+    }
+    else if (colorId == 3){
+      color =  Colors.orangeAccent;
+    }
+    else if (colorId == 4){
+      color =  Colors.yellowAccent;
+    }
+    return color;
+  }
+
 }
+
+

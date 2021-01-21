@@ -1,4 +1,5 @@
 //Packages
+import 'package:coolnote_app/Controllers/ColorProvider.dart';
 import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ void main() {
       providers: [
         ChangeNotifierProvider<PageProvider>(create: (_) => PageProvider()),
         ChangeNotifierProvider<NotesViewController>(create: (_) => NotesViewController()),
+        ChangeNotifierProvider<ColorProvider>(create: (_) => ColorProvider()),
       ],
       child: MyApp(),
     ),

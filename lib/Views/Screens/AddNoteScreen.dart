@@ -1,6 +1,8 @@
+import 'package:coolnote_app/Controllers/ColorProvider.dart';
 import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:coolnote_app/Models/NoteModel.dart';
 import 'package:coolnote_app/Models/dbConnection.dart';
+import 'package:coolnote_app/Views/ComponentWidgets/ColorDot.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MultilineTextField.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MyFloatingActionButton.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +76,28 @@ class AddNoteScreen extends StatelessWidget {
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: [
+                    Container(
+                      width: width * .92,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(height),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                         GestureDetector(child: ColorDot(height: height,size: Provider.of<ColorProvider>(context).colorId == 0 ?  0.04 : 0.03,color: Colors.greenAccent,colorId: 0,),onTap: (){Provider.of<ColorProvider>(context,listen: false).colorChanger(0);}),
+                         GestureDetector(child: ColorDot(height: height,size: Provider.of<ColorProvider>(context).colorId == 1 ?  0.04 : 0.03,color: Colors.redAccent,colorId: 1,),onTap: (){Provider.of<ColorProvider>(context,listen: false).colorChanger(1);}),
+                         GestureDetector(child: ColorDot(height: height,size: Provider.of<ColorProvider>(context).colorId == 2 ?  0.04 : 0.03,color: Colors.blueAccent,colorId: 2,),onTap: (){Provider.of<ColorProvider>(context,listen: false).colorChanger(2);}),
+                         GestureDetector(child: ColorDot(height: height,size: Provider.of<ColorProvider>(context).colorId == 3 ?  0.04 : 0.03,color: Colors.orangeAccent,colorId: 3,),onTap: (){Provider.of<ColorProvider>(context,listen: false).colorChanger(3);}),
+                         GestureDetector(child: ColorDot(height: height,size: Provider.of<ColorProvider>(context).colorId == 4 ?  0.04 : 0.03,color: Colors.yellowAccent,colorId: 4,),onTap: (){Provider.of<ColorProvider>(context,listen: false).colorChanger(4);}),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * .02,
+                    ),
                     MultilineTextField(
                       myController: headlineController,
                       width: width,
@@ -109,7 +133,7 @@ class AddNoteScreen extends StatelessWidget {
                 onTap: () async {
                   //AddNote
                   Database database = await dbConnection();
-                  Note note = Note(headline: headlineController.text,date: 'May 21,2020',note: noteController.text);
+                  Note note = Note(headline: headlineController.text,date: dateCode(DateTime.now()),note: noteController.text,colorId: Provider.of<ColorProvider>(context,listen: false).colorId);
                   Provider.of<NotesViewController>(context,listen: false).insertNote(note, database);
                   //NotifyLister
                   Provider.of<NotesViewController>(context, listen: false).notesRow(width: width,height: height);
@@ -133,4 +157,50 @@ class AddNoteScreen extends StatelessWidget {
     );
   }
 }
+//TODO find a place to it
+String dateCode(DateTime now){
+  var month = now.month;
+  var day = now.day;
+  var year = now.year;
 
+  String stringMonth;
+
+  if (month == 1){
+    stringMonth = 'Jan';
+  }
+  else if(month == 2){
+    stringMonth = 'Feb';
+  }
+  else if(month == 3){
+    stringMonth = 'Mar';
+  }
+  else if(month == 4){
+    stringMonth = 'Apr';
+  }
+  else if(month == 5){
+    stringMonth = 'May';
+  }
+  else if(month == 6){
+    stringMonth = 'June';
+  }
+  else if(month == 7){
+    stringMonth = 'July';
+  }
+  else if(month == 8){
+    stringMonth = 'Aug';
+  }
+  else if(month == 9){
+    stringMonth = 'Sep';
+  }
+  else if(month == 10){
+    stringMonth = 'Oct';
+  }
+  else if(month == 11){
+    stringMonth = 'Nov';
+  }
+  else if(month == 12){
+    stringMonth = 'Dec';
+  }
+
+  return "$stringMonth $day,$year";
+}
