@@ -80,6 +80,8 @@ class MyHomePage extends StatelessWidget {
                     Navigator.pushNamed(context, '/AddNoteScreen');
                   },
                   child: MyFloatingActionButton(
+                    myHeight:height*.08 ,
+                    myWidth: width*.5,
                     height: height,
                     width: width,
                     buttonColor: mainWidget,

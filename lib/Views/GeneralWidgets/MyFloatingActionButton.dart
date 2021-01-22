@@ -9,10 +9,14 @@ class MyFloatingActionButton extends StatelessWidget {
     @required this.iconColor,
     @required this.icon,
     @required this.text,
+    @required this.myHeight,
+    @required this.myWidth,
   });
 
   final double height;
   final double width;
+  final double myHeight;
+  final double myWidth;
   final Color buttonColor;
   final Color shadowColor;
   final Color iconColor;
@@ -27,9 +31,8 @@ class MyFloatingActionButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: height*.08,
-            width: width*.5,
-            padding: EdgeInsets.symmetric(horizontal: width*.01,vertical: height*.01),
+            height: myHeight,
+            padding: EdgeInsets.symmetric(horizontal: width*.03,vertical: height*.01),
             decoration: BoxDecoration(
               color: buttonColor,
               borderRadius: BorderRadius.circular(height),
@@ -38,6 +41,7 @@ class MyFloatingActionButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Icon(icon,color: iconColor,size: height*.05,),
+                SizedBox(width: width*.03,),
                 Text(
                   '$text  ',
                   style: TextStyle(
@@ -48,7 +52,7 @@ class MyFloatingActionButton extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );

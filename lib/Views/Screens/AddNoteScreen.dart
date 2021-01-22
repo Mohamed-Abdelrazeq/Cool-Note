@@ -1,7 +1,7 @@
 import 'package:coolnote_app/Controllers/ColorProvider.dart';
 import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:coolnote_app/Models/NoteModel.dart';
-import 'package:coolnote_app/Models/dbConnection.dart';
+import 'package:coolnote_app/Models/NoteTableDBConnection.dart';
 import 'package:coolnote_app/Views/ComponentWidgets/ColorDot.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MultilineTextField.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MyFloatingActionButton.dart';
@@ -132,15 +132,22 @@ class AddNoteScreen extends StatelessWidget {
               child: GestureDetector(
                 onTap: () async {
                   //AddNote
-                  Database database = await dbConnection();
+                  Database database = await noteTableDBConnection();
                   Note note = Note(headline: headlineController.text,date: dateCode(DateTime.now()),note: noteController.text,colorId: Provider.of<ColorProvider>(context,listen: false).colorId);
                   Provider.of<NotesViewController>(context,listen: false).insertNote(note, database);
                   //NotifyLister
                   Provider.of<NotesViewController>(context, listen: false).notesRow(width: width,height: height);
+                  //CleanControllers
+                  noteController.clear();
+                  headlineController.clear();
+                  //ResetColorProvider
+                  Provider.of<ColorProvider>(context,listen: false).colorChanger(2);
                   //GoBack
                   Navigator.pop(context);
                 },
                 child: MyFloatingActionButton(
+                  myHeight:height*.08 ,
+                  myWidth: width*.5,
                   height: height,
                   width: width,
                   buttonColor: mainWidget,

@@ -1,5 +1,5 @@
 import 'package:coolnote_app/Models/NoteModel.dart';
-import 'package:coolnote_app/Models/dbConnection.dart';
+import 'package:coolnote_app/Models/NoteTableDBConnection.dart';
 import 'package:coolnote_app/Views/ComponentWidgets/NoteCard.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
@@ -79,7 +79,7 @@ class NotesViewController with ChangeNotifier{
     leftList.clear();
     rightList.clear();
 
-    Database database = await dbConnection();
+    Database database = await noteTableDBConnection();
     List<Note> myNotes = await notes(database);
 
     for (var i = 0; i < myNotes.length; i++) {

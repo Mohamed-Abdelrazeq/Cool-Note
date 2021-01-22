@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 
-Future<Database> dbConnection() async {
+Future<Database> noteTableDBConnection() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 

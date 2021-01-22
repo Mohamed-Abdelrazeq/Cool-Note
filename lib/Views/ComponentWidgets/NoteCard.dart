@@ -1,3 +1,4 @@
+import 'package:coolnote_app/Views/Screens/NoteScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../ProjectConstants.dart';
@@ -26,35 +27,43 @@ class NoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * .44,
-      margin: EdgeInsets.only(bottom: width * .04),
-      padding: EdgeInsets.all(height * .02),
-      decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.circular(height * .02)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            headline,
-            style: TextStyle(
-                wordSpacing: 2,
-                color: secText,
-                fontSize: height * .028,
-                fontWeight: FontWeight.w500),
-          ),
-          SizedBox(
-            height: height * .015,
-          ),
-          Text(
-            date,
-            style: TextStyle(
-                wordSpacing: 2,
-                color: secData,
-                fontSize: height * .024,
-                fontWeight: FontWeight.w500),
-          ),
-        ],
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NoteScreen(headline: headline, id: id, note: note)),
+        );
+      },
+      child: Container(
+        width: width * .44,
+        margin: EdgeInsets.only(bottom: width * .04),
+        padding: EdgeInsets.all(height * .02),
+        decoration: BoxDecoration(
+            color: color, borderRadius: BorderRadius.circular(height * .02)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              headline,
+              style: TextStyle(
+                  wordSpacing: 2,
+                  color: secText,
+                  fontSize: height * .028,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: height * .015,
+            ),
+            Text(
+              date,
+              style: TextStyle(
+                  wordSpacing: 2,
+                  color: secData,
+                  fontSize: height * .024,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ),
     );
   }
