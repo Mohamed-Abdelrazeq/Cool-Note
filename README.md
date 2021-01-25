@@ -4,11 +4,11 @@ A Flutter app Used to svae notes
 
 # Used in the app
 
--MVC
--Provider
--Sqlite
--Async
--Responsive UI
+- MVC
+- Provider
+- Sqlite
+- Async
+- Responsive UI
 
 # Some Images from the app
 
