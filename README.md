@@ -1,6 +1,6 @@
 # Cool Note App
 
-A Flutter app Used to svae notes
+A Flutter app Used to save notes
 
 # Used in the app
 
