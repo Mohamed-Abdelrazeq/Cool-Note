@@ -1,8 +1,9 @@
 import 'package:coolnote_app/Models/NoteModel.dart';
-import 'package:coolnote_app/Models/NoteTableDBConnection.dart';
 import 'package:coolnote_app/Views/ComponentWidgets/NoteCard.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+import 'package:path/path.dart';
 
 class NotesViewController with ChangeNotifier{
   //Vars
@@ -10,8 +11,22 @@ class NotesViewController with ChangeNotifier{
   List<Widget> rightList = [];
   List<Widget> myNoteCards = [];
 
-  Future<void> insertNote(Note note,Database database) async {
-    final Database db = database;
+  Future<Database> noteTableDBConnection() async {
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'notes_database.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE notes(id INTEGER PRIMARY KEY, headline TEXT, note TEXT,date TEXT,colorId INTEGER)",
+        );
+      },
+      version: 1,
+    );
+
+    return database;
+  }
+
+  Future<void> insertNote(Note note) async {
+    Database db = await noteTableDBConnection();
 
     await db.insert(
       'notes',
@@ -20,11 +35,9 @@ class NotesViewController with ChangeNotifier{
     );
   }
 
-  Future<void> updateNote(Note note,Database database) async {
-    // Get a reference to the database.
-    final db = database;
+  Future<void> updateNote(Note note) async {
+    Database db = await noteTableDBConnection();
 
-    // Update the given Dog.
     await db.update(
       'notes',
       note.toMap(),
@@ -38,9 +51,9 @@ class NotesViewController with ChangeNotifier{
 
   }
 
-  Future<void> deleteNote(int id,Database database) async {
+  Future<void> deleteNote(int id) async {
     // Get a reference to the database.
-    final db = database;
+    Database db = await noteTableDBConnection();
 
     // Remove the Dog from the database.
     await db.delete(
@@ -55,14 +68,11 @@ class NotesViewController with ChangeNotifier{
 
   }
 
-  Future<List<Note>> notes(Database database) async {
-    // Get a reference to the database.
-    final Database db = database;
+  Future<List<Note>> notes() async {
+    Database db = await noteTableDBConnection();
 
-    // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('notes');
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Note(
         id: maps[i]['id'],
@@ -79,8 +89,7 @@ class NotesViewController with ChangeNotifier{
     leftList.clear();
     rightList.clear();
 
-    Database database = await noteTableDBConnection();
-    List<Note> myNotes = await notes(database);
+    List<Note> myNotes = await notes();
 
     for (var i = 0; i < myNotes.length; i++) {
       if (myNotes[i].id % 2 != 0){
@@ -131,11 +140,9 @@ class NotesViewController with ChangeNotifier{
       color =  Colors.redAccent;
     }else if (colorId == 2){
       color =  Colors.blueAccent;
-    }
-    else if (colorId == 3){
+    } else if (colorId == 3){
       color =  Colors.orangeAccent;
-    }
-    else if (colorId == 4){
+    } else if (colorId == 4){
       color =  Colors.yellowAccent;
     }
     return color;

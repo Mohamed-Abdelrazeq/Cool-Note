@@ -1,9 +1,7 @@
 import 'package:coolnote_app/Controllers/NotesViewController.dart';
-import 'package:coolnote_app/Models/NoteTableDBConnection.dart';
 import 'package:coolnote_app/Views/ProjectConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class NoteScreen extends StatelessWidget {
 
@@ -105,34 +103,9 @@ class NoteScreen extends StatelessWidget {
                         SizedBox(
                           width: width * .03,
                         ),
-                        // GestureDetector(
-                        //   onTap: (){
-                        //     print('Edit');//todo nice feature
-                        //   },
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //     children: [
-                        //       Icon(
-                        //         Icons.edit,
-                        //         color: Colors.white,
-                        //         size: height * .05,
-                        //       ),
-                        //       Text(
-                        //         'Delete',
-                        //         style: TextStyle(
-                        //           color: Colors.white,
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   width: width * .03,
-                        // ),
                         GestureDetector(
                           onTap: () async {
-                            Database database = await noteTableDBConnection();
-                            Provider.of<NotesViewController>(context,listen: false).deleteNote(id, database);
+                            Provider.of<NotesViewController>(context,listen: false).deleteNote(id);
                             Provider.of<NotesViewController>(context, listen: false).notesRow(width: width,height: height);
                             Navigator.pop(context);
                           },

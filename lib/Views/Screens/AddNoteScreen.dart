@@ -1,13 +1,11 @@
 import 'package:coolnote_app/Controllers/ColorProvider.dart';
 import 'package:coolnote_app/Controllers/NotesViewController.dart';
 import 'package:coolnote_app/Models/NoteModel.dart';
-import 'package:coolnote_app/Models/NoteTableDBConnection.dart';
 import 'package:coolnote_app/Views/ComponentWidgets/ColorDot.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MultilineTextField.dart';
 import 'package:coolnote_app/Views/GeneralWidgets/MyFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 import '../ProjectConstants.dart';
 
 TextEditingController headlineController = TextEditingController();
@@ -132,9 +130,8 @@ class AddNoteScreen extends StatelessWidget {
               child: GestureDetector(
                 onTap: () async {
                   //AddNote
-                  Database database = await noteTableDBConnection();
                   Note note = Note(headline: headlineController.text,date: dateCode(DateTime.now()),note: noteController.text,colorId: Provider.of<ColorProvider>(context,listen: false).colorId);
-                  Provider.of<NotesViewController>(context,listen: false).insertNote(note, database);
+                  Provider.of<NotesViewController>(context,listen: false).insertNote(note);
                   //NotifyLister
                   Provider.of<NotesViewController>(context, listen: false).notesRow(width: width,height: height);
                   //CleanControllers

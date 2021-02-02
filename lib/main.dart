@@ -11,6 +11,7 @@ import 'Views/Screens/AddNoteScreen.dart';
 import 'Views/Screens/MyHomePage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
